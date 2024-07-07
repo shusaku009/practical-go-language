@@ -68,7 +68,7 @@ type Option struct {
 }
 
 // 構造体を利用したオプション引数
-func NewUdon(opt Option) *Udon {
+func NewUdonFn(opt Option) *Udon {
 	if opt.ebiten == 0 && time.Now().Hour() < 10 {
 		opt.ebiten = 1
 	}
@@ -77,4 +77,41 @@ func NewUdon(opt Option) *Udon {
 		aburaage: opt.aburaage,
 		ebiten:   opt.ebiten,
 	}
+}
+
+type fluentOpt struct {
+	men      Portion
+	aburaage bool
+	ebiten   uint
+}
+
+func NewUdonOp(p Portion) *fluentOpt {
+	return &fluentOpt{
+		men:      p,
+		aburaage: false,
+		ebiten:   1,
+	}
+}
+
+// ビルダーを利用したオプション引数
+func (o *fluentOpt) Aburaage() *fluentOpt {
+	o.aburaage = true
+	return o
+}
+
+func (o *fluentOpt) Ebiten(n uint) *fluentOpt {
+	o.ebiten = n
+	return o
+}
+
+func (o *fluentOpt) order() *Udon {
+	return &Udon{
+		men:      o.men,
+		aburaage: o.aburaage,
+		ebiten:   o.ebiten,
+	}
+}
+
+func useFluentInterface() {
+	oomorikitsune := NewUdonOp(Large).Aburaage().order()
 }
