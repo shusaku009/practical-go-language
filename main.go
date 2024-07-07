@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
 type Portion int
@@ -33,6 +34,7 @@ func main() {
 	fmt.Printf("Udon details: %+v\n", kakeUdon)
 }
 
+// 別名の関数によるオプション引数
 func NewKakeUdon(p Portion) *Udon {
 	return &Udon{
 		men:      p,
@@ -58,3 +60,21 @@ func NewTempuraUdon(p Portion) *Udon {
 }
 
 var kakeUdon = NewKakeUdon(Large)
+
+type Option struct {
+	men      Portion
+	aburaage bool
+	ebiten   uint
+}
+
+// 構造体を利用したオプション引数
+func NewUdon(opt Option) *Udon {
+	if opt.ebiten == 0 && time.Now().Hour() < 10 {
+		opt.ebiten = 1
+	}
+	return &Udon{
+		men:      opt.men,
+		aburaage: opt.aburaage,
+		ebiten:   opt.ebiten,
+	}
+}
