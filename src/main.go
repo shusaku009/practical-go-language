@@ -30,4 +30,31 @@ var tempuraUdon = NewUdon(Large, false, 2)
 
 func main() {
 	fmt.Printf("Udon details: %+v\n", tempuraUdon)
+	fmt.Printf("Udon details: %+v\n", kakeUdon)
 }
+
+func NewKakeUdon(p Portion) *Udon {
+	return &Udon{
+		men:      p,
+		aburaage: false,
+		ebiten:   0,
+	}
+}
+
+func NewKitsuneUdon(p Portion) *Udon {
+	return &Udon{
+		men:      p,
+		aburaage: true,
+		ebiten:   0,
+	}
+}
+
+func NewTempuraUdon(p Portion) *Udon {
+	return &Udon{
+		men:      p,
+		aburaage: false,
+		ebiten:   3,
+	}
+}
+
+var kakeUdon = NewKakeUdon(Large)
