@@ -2,143 +2,36 @@ package main
 
 import (
 	"fmt"
-	"time"
+	"practical-go-language/sub"
 )
-
-type Portion int
-
-const (
-	Regular Portion = iota
-	Small
-	Large
-)
-
-type Udon struct {
-	men      Portion
-	aburaage bool
-	ebiten   uint
-}
-
-func NewUdon(p Portion, aburaage bool, ebiten uint) *Udon {
-	return &Udon{
-		men:      p,
-		aburaage: aburaage,
-		ebiten:   ebiten,
-	}
-}
-
-var tempuraUdon = NewUdon(Large, false, 2)
 
 func main() {
-	fmt.Printf("Udon details: %+v\n", tempuraUdon)
-	fmt.Printf("Udon details: %+v\n", kakeUdon)
-}
+	kakeUdon := sub.NewKakeUdon(sub.Large)
+	kitsuneUdon := sub.NewKitsuneUdon(sub.Regular)
+	tempuraUdon := sub.NewTempuraUdon(sub.Small)
 
-// 別名の関数によるオプション引数
-func NewKakeUdon(p Portion) *Udon {
-	return &Udon{
-		men:      p,
-		aburaage: false,
-		ebiten:   0,
-	}
-}
+	// 構造体を利用したオプション引数
+	optionUdon := sub.NewUdonFn(sub.Option{
+		Men:      sub.Regular,
+		Aburaage: true,
+		Ebiten:   2,
+	})
 
-func NewKitsuneUdon(p Portion) *Udon {
-	return &Udon{
-		men:      p,
-		aburaage: true,
-		ebiten:   0,
-	}
-}
+	// ビルダーを利用したオプション引数
+	fluentUdon := sub.NewUdonOp(sub.Large).Aburaage().Ebiten(3).Order()
 
-func NewTempuraUdon(p Portion) *Udon {
-	return &Udon{
-		men:      p,
-		aburaage: false,
-		ebiten:   3,
-	}
-}
+	// Functional Optionパターンを使ったオプション引数
+	funcOptionUdon := sub.NewUdonWithOpts(
+		sub.OptMen(sub.Large),
+		sub.OptAburaage(),
+		sub.OptEbiten(2),
+	)
 
-var kakeUdon = NewKakeUdon(Large)
-
-type Option struct {
-	men      Portion
-	aburaage bool
-	ebiten   uint
-}
-
-// 構造体を利用したオプション引数
-func NewUdonFn(opt Option) *Udon {
-	if opt.ebiten == 0 && time.Now().Hour() < 10 {
-		opt.ebiten = 1
-	}
-	return &Udon{
-		men:      opt.men,
-		aburaage: opt.aburaage,
-		ebiten:   opt.ebiten,
-	}
-}
-
-type fluentOpt struct {
-	men      Portion
-	aburaage bool
-	ebiten   uint
-}
-
-func NewUdonOp(p Portion) *fluentOpt {
-	return &fluentOpt{
-		men:      p,
-		aburaage: false,
-		ebiten:   1,
-	}
-}
-
-// ビルダーを利用したオプション引数
-func (o *fluentOpt) Aburaage() *fluentOpt {
-	o.aburaage = true
-	return o
-}
-
-func (o *fluentOpt) Ebiten(n uint) *fluentOpt {
-	o.ebiten = n
-	return o
-}
-
-func (o *fluentOpt) order() *Udon {
-	return &Udon{
-		men:      o.men,
-		aburaage: o.aburaage,
-		ebiten:   o.ebiten,
-	}
-}
-
-func useFluentInterface() {
-	oomorikitsune := NewUdonOp(Large).Aburaage().order()
-}
-
-// Functional Optionパターンを使ったオプション引数
-type OptFunc func(r *Udon)
-
-func NewUdon(opts ...OptFunc) *Udon {
-	r := &Udon{}
-	for _, opt := range opts {
-		opt(r)
-	}
-	return r
-}
-
-func OptMen(p Portion) OptFunc {
-	return func(r *Udon) { r.men = p }
-}
-
-func OptAburaage() OptFunc {
-	return func(r *Udon) { r.aburaage = true }
-}
-
-func OptEbiten(n uint) OptFunc {
-	return func(r *Udon) { r.ebiten = n }
-}
-
-func useFuncOption() {
-	tokuseiUdon := NewUdon(OptAburaage(), OptEbiten(3))
+	// 作成したUdonの情報を表示
+	fmt.Printf("Kake Udon: %+v\n", kakeUdon)
+	fmt.Printf("Kitsune Udon: %+v\n", kitsuneUdon)
+	fmt.Printf("Tempura Udon: %+v\n", tempuraUdon)
+	fmt.Printf("Option Udon: %+v\n", optionUdon)
+	fmt.Printf("Fluent Udon: %+v\n", fluentUdon)
+	fmt.Printf("Func Option Udon: %+v\n", funcOptionUdon)
 }
