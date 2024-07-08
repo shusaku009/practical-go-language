@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"practical-go-language/sub"
 )
 
@@ -36,13 +35,9 @@ func main() {
 	fmt.Printf("Fluent Udon: %+v\n", fluentUdon)
 	fmt.Printf("Func Option Udon: %+v\n", funcOptionUdon)
 
-	src := []string{"Back", "To", "The", "Future", "Part", "III"}
-	var title string
-	for i, word := range src {
-		if i != 0 {
-			title += " "
-		}
-		title += word
-	}
-	log.Println(title)
+	result := sub.Strings()
+	fmt.Println(result)
+
+	bresult := sub.BuilderStrings()
+	fmt.Println(bresult)
 }

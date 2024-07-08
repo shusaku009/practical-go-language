@@ -2,6 +2,8 @@ package sub
 
 import (
 	"flag"
+	"log"
+	"strings"
 	"time"
 )
 
@@ -134,3 +136,31 @@ var (
 	FlagStr = flag.String("string", "default", "文字列フラグ")
 	FlagInt = flag.Int("int", -1, "数値フラグ")
 )
+
+func Strings() string {
+	src := []string{"Back", "To", "The", "Future", "Part", "III"}
+	var title string
+	for i, word := range src {
+		if i != 0 {
+			title += " "
+		}
+		title += word
+	}
+	log.Println(title)
+	return title
+}
+
+func BuilderStrings() string {
+	src := []string{"Back", "To", "The", "Future", "Part", "III"}
+
+	var builder strings.Builder
+	builder.Grow(100)
+	for i, word := range src {
+		if i != 0 {
+			builder.WriteByte(' ')
+		}
+		builder.WriteString(word)
+	}
+	log.Println(builder.String())
+	return builder.String()
+}
