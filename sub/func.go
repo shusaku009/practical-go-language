@@ -2,6 +2,7 @@ package sub
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"strings"
 	"time"
@@ -163,4 +164,17 @@ func BuilderStrings() string {
 	}
 	log.Println(builder.String())
 	return builder.String()
+}
+
+func TimeNow() string {
+	now := time.Now()
+	tz, err := time.LoadLocation("America/Los_Angeles")
+	if err != nil {
+		fmt.Println("エラー：タイムゾーンの読み込みに失敗しました:", err)
+		return now.String()
+	}
+	future := time.Date(2015, time.October, 21, 7, 28, 0, 0, tz)
+	fmt.Println(now.String())
+	fmt.Println(future.Format(time.RFC3339Nano))
+	return now.String()
 }

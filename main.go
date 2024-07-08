@@ -40,4 +40,7 @@ func main() {
 
 	bresult := sub.BuilderStrings()
 	fmt.Println(bresult)
+
+	timeresult := sub.TimeNow()
+	fmt.Println(timeresult)
 }
