@@ -43,4 +43,7 @@ func main() {
 
 	timeresult := sub.TimeNow()
 	fmt.Println(timeresult)
+
+	timeduration := sub.TimeDuration()
+	fmt.Println(timeduration)
 }
