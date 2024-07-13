@@ -2,7 +2,10 @@ package sub
 
 import "fmt"
 
-type HTTPStatus int
+type (
+	HTTPStatus    int
+	NationalRoute int
+)
 
 const (
 	StatusOK              HTTPStatus = 200
@@ -23,5 +26,27 @@ func (s HTTPStatus) String() string {
 		return "Forbidden"
 	default:
 		return fmt.Sprintf("HTTPStatus(%d)", s)
+	}
+}
+
+const (
+	Nagasakikaido   NationalRoute = 200
+	AizuNumatakaido NationalRoute = 401
+	HokurikuDo      NationalRoute = 402
+	KurinokiBypass  NationalRoute = 403
+)
+
+func (n NationalRoute) String() string {
+	switch n {
+	case Nagasakikaido:
+		return "長崎街道"
+	case AizuNumatakaido:
+		return "会津沼田街道"
+	case HokurikuDo:
+		return "北陸道"
+	case "KurinokiBypass":
+		return "栗の木バイパス"
+	default:
+		return fmt.Sprintf("国道%d号線", n)
 	}
 }
