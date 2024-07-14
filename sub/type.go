@@ -50,3 +50,19 @@ func (n NationalRoute) String() string {
 		return fmt.Sprintf("国道%d号線", n)
 	}
 }
+
+type Consumer struct {
+	ActiveFlg bool
+}
+
+type Consumers []Consumer
+
+func (c Consumers) ActiveConsumer() Consumers {
+	resp := make([]Consumer, 0, len(c))
+	for _, v := range c {
+		if v.ActiveFlg {
+			resp = append(resp, v)
+		}
+	}
+	return resp
+}
