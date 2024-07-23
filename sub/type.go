@@ -1,6 +1,8 @@
 package sub
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type (
 	HTTPStatus    int
@@ -66,3 +68,12 @@ func (c Consumers) ActiveConsumer() Consumers {
 	}
 	return resp
 }
+
+//
+// func ProcessActiveConsumers(ctx context.Context, key string) (Consumers, error) {
+// 	gets, err := GetConsumers(ctx, key)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return gets.ActiveConsumer(), nil
+// }
